@@ -136,6 +136,74 @@ public abstract class  CriaBancoDeDados {
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
 
+    /**
+     * Método cria a tabela de Tipo de Modal
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de Tipo de Modal
+     */
+    private static String criarTabelaTipoModal (){
+
+        return  "CREATE TABLE tipo_modal ("+
+                "tipo_modal int UNSIGNED not null auto_increment primary key,"+
+                "nome_modal varchar(30) not null,"+
+                "valor_hora double"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
+
+    /**
+     * Método cria a tabela de Modal
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de Modal
+     */
+    private static String criarTabelaModal (){
+
+        return  "CREATE TABLE modal ("+
+               "id_modal int UNSIGNED not null auto_increment primary key,"+
+                "tipo_modal int UNSIGNED,"+
+                "modelo VARCHAR(30) not null,"+
+                "marca varchar(20) not null,"+
+                "constraint fk_tipo_modal foreign key (tipo_modal)"+
+                 "references tipo_modal(tipo_modal)"+
+                "ON DELETE CASCADE"+
+                "ON UPDATE CASCADE"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
+
+    /**
+     * Método cria a tabela de suporte
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de suporte
+     */
+    private static String criarTabela(){
+
+        return "CREATE TABLE suporte ("+
+                "os int UNSIGNED not null auto_increment primary key,"+
+                "id_cliente_suporte int UNSIGNED,"+
+                "id_modal int UNSIGNED,"+
+                "cod_est int UNSIGNED,"+
+                "descicao_suporte TEXT not null,"+
+                "status_os int UNSIGNED not null,"+
+                "data_abertura date,"+
+                "hora_abertura time,"+
+                "data_fechamento date,"+
+                "hora_fechamento time,"+
+                "constraint  foreign key (id_cliente_suporte)"+
+                "references cliente(id_cliente)"+
+                "ON DELETE CASCADE"+
+                "ON UPDATE CASCADE,"+
+                "constraint  foreign key (id_modal)"+
+                "references modal(id_modal)"+
+                "ON DELETE CASCADE"+
+                "ON UPDATE CASCADE,"+
+                "constraint  foreign key (cod_est)"+
+                "references estacao(cod_est)"+
+                "ON DELETE CASCADE"+
+                "ON UPDATE CASCADE"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
 
 
     /**
