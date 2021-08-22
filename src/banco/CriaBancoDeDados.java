@@ -14,6 +14,24 @@ public abstract class  CriaBancoDeDados {
     private static final String USE_DATA_BASE = "use " + NOME_DO_BANCO + ";";
 
 
+    /**
+     * Esse método monta o banco de dados chamando
+     * os metodo internos dessa classe
+     */
+    public static String criarBancoDeDados(){
+
+        return createDataBase()+
+        criarTabelaCliente ()+
+        criarTabelaMetodoPagamento ()+
+        criarTabelaDadosContato ()+
+        criarTabelaSuporteFuncao ()+
+        criarTabelaFuncionario ()+
+        criarTabelaEstacao ()+
+        criarTabelaTipoModal ()+
+        criarTabelaModal ()+
+        criarTabelaSuporte();
+    }
+
     /***
      * Método cria um banco de dados e em seguida
      * o seleciona
@@ -25,7 +43,6 @@ public abstract class  CriaBancoDeDados {
 
         return CREATE_DATA_BASE + USE_DATA_BASE;
     }
-
 
     /**
      * Método cria a tabela de clientes
@@ -169,15 +186,17 @@ public abstract class  CriaBancoDeDados {
                 "ON DELETE CASCADE"+
                 "ON UPDATE CASCADE"+
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+
     }
 
     /**
      * Método cria a tabela de suporte
      *
      * @return retorna o comando SQL parar criar a tabela
-     * de suporte
+     * de suporteq
      */
-    private static String criarTabela(){
+
+    private static String criarTabelaSuporte(){
 
         return "CREATE TABLE suporte ("+
                 "os int UNSIGNED not null auto_increment primary key,"+
@@ -203,18 +222,6 @@ public abstract class  CriaBancoDeDados {
                 "ON DELETE CASCADE"+
                 "ON UPDATE CASCADE"+
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
-    }
-
-
-    /**
-     * Esse método monta o banco de dados chamando
-     * os metodo internos dessa classe
-     */
-    public static void executar(){
-        createDataBase();
-        criarTabelaCliente ();
-
-
     }
 
 }
