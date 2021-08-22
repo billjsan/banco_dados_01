@@ -89,8 +89,6 @@ public abstract class  CriaBancoDeDados {
         ") DEFAULT CHARSET = utf8, ENGINE = InnoDB;";
     }
 
-
-
     /**
      * Método cria a tabela de método de Suporte Funcao
      *
@@ -107,6 +105,12 @@ public abstract class  CriaBancoDeDados {
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
 
+    /**
+     * Método cria a tabela de Funcionario
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de Funcionario
+     */
     private static String criarTabelaFuncionario (){
 
         return  "CREATE TABLE funcionario ("+
