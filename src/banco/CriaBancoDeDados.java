@@ -71,6 +71,24 @@ public abstract class  CriaBancoDeDados {
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
 
+    /**
+     * Método cria a tabela de método de Dados de Contato
+     *
+     * @return retorna o comando parar criar a tabela
+     * de Dados de Contato
+     */
+    private static String criarTabelaDadosContato (){
+
+        return "CREATE TABLE dados_contato (" +
+        "id_cliente_dados int UNSIGNED,"+
+        "telefone varchar(15),"+
+        "constraint fk_id_cliente_dados FOREIGN KEY (id_cliente_dados)"+
+        "REFERENCES cliente(id_cliente)"+
+        "ON DELETE CASCADE"+
+        "ON UPDATE CASCADE"+
+        ") DEFAULT CHARSET = utf8, ENGINE = InnoDB;";
+    }
+
 
     /**
      * Esse método monta o banco de dados chamando
