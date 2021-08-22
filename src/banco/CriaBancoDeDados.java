@@ -169,13 +169,14 @@ public abstract class  CriaBancoDeDados {
                 "ON DELETE CASCADE"+
                 "ON UPDATE CASCADE"+
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+
     }
 
     /**
      * Método cria a tabela de suporte
      *
      * @return retorna o comando SQL parar criar a tabela
-     * de suporte
+     * de suporteq
      */
     private static String criarTabela(){
 
@@ -204,7 +205,6 @@ public abstract class  CriaBancoDeDados {
                 "ON UPDATE CASCADE"+
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
-
 
     /**
      * Esse método monta o banco de dados chamando
