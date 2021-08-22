@@ -1,0 +1,186 @@
+-- ----------------------- CRIAÇÃO DA TABELA -------------------------
+create database if not exists banco_principal default char set=utf8;
+USE banco_principal;
+
+
+-- ----------------------- COMANDOS DE APOIO -------------------------
+
+SHOW DATABASES;
+
+DROP DATABASE banco_principal;
+SHOW TABLES;
+
+DESC cliente;
+DESC metodo_pagamento;
+
+DELETE FROM cliente WHERE id_cliente=1;
+
+-- ----------------------- COMANDOS DE VIZUALIZACAO -------------------------
+SELECT * FROM cliente;
+SELECT * FROM metodo_pagamento;
+SELECT * FROM dados_contato;
+SELECT * FROM suporte_funcao;
+SELECT * FROM funcionario;
+SELECT * FROM estacao;
+SELECT * FROM tipo_modal;
+SELECT * FROM modal;
+SELECT * FROM suporte;
+
+-- ----------------------- CRIAÇÃO DE TABELAS -----------------------
+
+CREATE TABLE cliente (
+  id_cliente int UNSIGNED NOT NULL auto_increment primary key,
+  nome varchar(30) not null,
+  cpf varchar(11) not null UNIQUE,
+  e_mail varchar(30) not null UNIQUE,
+  senha varchar(20) not null,
+  nascimento date not null
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE metodo_pagamento (
+  id_cartao int UNSIGNED not null auto_increment primary key,
+  id_cliente int UNSIGNED,
+  n_cartao varchar(16) not null,
+  nome_titular varchar(30) not null,
+  cpf_titular varchar(11) not null,
+  validade varchar(5) not null,
+  cvc varchar(3) not null,
+  constraint fk_id_cliente foreign key (id_cliente)
+  references cliente(id_cliente)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE dados_contato (
+  id_cliente_dados int UNSIGNED,
+  telefone varchar(15),
+  constraint fk_id_cliente_dados FOREIGN KEY (id_cliente_dados)
+  REFERENCES cliente(id_cliente)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+
+) DEFAULT CHARSET = utf8, ENGINE = InnoDB;
+
+CREATE TABLE suporte_funcao (
+  id_funcao int UNSIGNED not null auto_increment,
+  descricao varchar(180) not null,
+  salario double not null,
+  PRIMARY KEY (id_funcao)
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE funcionario (
+  id_funcionario int UNSIGNED not null auto_increment primary key,
+  nome varchar(30) not null,
+  id_funcao int UNSIGNED,
+  constraint fk_id_funcao foreign key (id_funcao)
+  references suporte_funcao(id_funcao)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE estacao (
+  cod_est int UNSIGNED not null auto_increment primary key,
+  endereco text not null,
+  nome varchar(30)
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE tipo_modal (
+  tipo_modal int UNSIGNED not null auto_increment primary key,
+  nome_modal varchar(30) not null,
+  valor_hora double
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE modal (
+  id_modal int UNSIGNED not null auto_increment primary key,
+  tipo_modal int UNSIGNED,
+  modelo VARCHAR(30) not null,
+  marca varchar(20) not null,
+  constraint fk_tipo_modal foreign key (tipo_modal)
+  references tipo_modal(tipo_modal)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE suporte (
+  os int UNSIGNED not null auto_increment primary key,
+  id_cliente_suporte int UNSIGNED,
+  id_modal int UNSIGNED,
+  cod_est int UNSIGNED,
+  descicao_suporte TEXT not null,
+  status_os int UNSIGNED not null,
+  data_abertura date,
+  hora_abertura time,
+  data_fechamento date,
+  hora_fechamento time,
+  constraint  foreign key (id_cliente_suporte)
+  references cliente(id_cliente),
+  constraint  foreign key (id_modal)
+  references modal(id_modal),
+  constraint  foreign key (cod_est)
+  references estacao(cod_est)
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+
+-- ----------------------- INSERCAO DE DADOS  -----------------------
+-- OS COMANDOS ABAIXO DEVEM SER
+-- DADOS DO CLIENTE
+insert into cliente(nome, cpf, e_mail, senha, nascimento)
+values
+("willian", "01235215487", "willian@gmail.com", "254154", "1998-05-25"),
+("joao", "98652312457", "joaol@gmail.com", "254154", "1998-05-25"),
+("pedro", "99991203254", "pedro@gmail.com", "254154", "1998-05-25"),
+("carlos", "00032154254", "carlos@gmail.com", "254154", "1998-05-25");
+
+-- DADOS METODO DE PAGAMENTO
+insert into metodo_pagamento
+(id_cliente, n_cartao,  nome_titular, cpf_titular,validade,cvc)
+values
+(1, "1234567891234567", "willian santos", "02154215487", "21-12", "021"),
+(1, "0213254121542458", "jose santos", "96556996585", "21-25", "081"),
+(2, "1234567891234567", "pedro", "02154215487", "21-12", "021"),
+(3, "1234567891234567", "carlos", "02154215487", "21-12", "021");
+
+
+-- DADOS DE CONTATO
+INSERT INTO dados_contato (id_cliente_dados, telefone)
+values
+(1, "998854125"),
+(1, "887751245"),
+(1, "652100325"),
+(2,"665522222");
+
+
+-- DADOS DE ESTACAO
+INSERT INTO estacao (endereco, nome)
+values
+("RUA A", "ESTACAO DA RUA A"),
+("RUA B", "ESTACAO DA RUA B"),
+("RUA C", "ESTACAO DA RUA A"),
+("RUA D","ESTACAO DA RUA D");
+
+-- DADOS DE TIPO MODAL
+INSERT INTO tipo_modal (nome_modal, valor_hora)
+values
+("Bicicleta", 2.50),
+("Bicicleta Elétrica", 3.0),
+("Patinete Elétrico", 4.0);
+
+-- DADOS DE MODAL
+INSERT INTO modal (tipo_modal,modelo, marca)
+values
+(1,"Bicicleta","caloi 01" ),
+(2,"Bicicleta Elétrica", "caloi EL 01"),
+(3,"Patinete Elétrico", "pat 01");
+
+-- DADOS DE SUPORTE
+INSERT INTO suporte
+(id_cliente_suporte, id_modal, cod_est, descicao_suporte, status_os, data_abertura,
+hora_abertura, data_fechamento, hora_fechamento )
+values
+( 1, NULL, NULL, 'erro no aplicativo', '111', '2021-08-21', '09:19:56', '2021-08-21', '09:21:32'),
+( 1, 2, NULL, 'Modal com freio ruim', '111', '2021-07-21', '09:19:56', '2021-08-21', '09:21:32'),
+( 3, NULL, 1, 'Estação não libera o modal', '111', '2021-06-21', '09:19:56', '2021-08-21', '09:21:32'),
+( 1, 3, 2, 'Modal não carrega na estação', '111', '2021-09-21', '09:19:56', '2021-08-21', '09:21:32');
+
+
+-- ----------------------------------------------------------------------

@@ -14,9 +14,6 @@ public abstract class  CriaBancoDeDados {
     private static final String USE_DATA_BASE = "use " + NOME_DO_BANCO + ";";
 
 
-
-
-
     /***
      * Método cria um banco de dados e em seguida
      * o seleciona
@@ -87,6 +84,24 @@ public abstract class  CriaBancoDeDados {
         "ON DELETE CASCADE"+
         "ON UPDATE CASCADE"+
         ") DEFAULT CHARSET = utf8, ENGINE = InnoDB;";
+    }
+
+
+
+    /**
+     * Método cria a tabela de método de Suporte Funcao
+     *
+     * @return retorna o comando parar criar a tabela
+     * de Suporte Funcaão
+     */
+    private static String criarTabelaSuporteFuncao (){
+
+        return  "CREATE TABLE suporte_funcao ("+
+                "id_funcao int UNSIGNED not null auto_increment,"+
+                "descricao varchar(180) not null,"+
+                "salario double not null,"+
+                "PRIMARY KEY (id_funcao)"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
 
 
