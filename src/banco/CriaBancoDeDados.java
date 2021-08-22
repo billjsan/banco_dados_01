@@ -90,6 +90,24 @@ public abstract class  CriaBancoDeDados {
     }
 
 
+
+    /**
+     * Método cria a tabela de método de Suporte Funcao
+     *
+     * @return retorna o comando parar criar a tabela
+     * de Suporte Funcaão
+     */
+    private static String criarTabelaSuporteFuncao (){
+
+        return  "CREATE TABLE suporte_funcao ("+
+                "id_funcao int UNSIGNED not null auto_increment,"+
+                "descricao varchar(180) not null,"+
+                "salario double not null,"+
+                "PRIMARY KEY (id_funcao)"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
+
+
     /**
      * Esse método monta o banco de dados chamando
      * os metodo internos dessa classe
