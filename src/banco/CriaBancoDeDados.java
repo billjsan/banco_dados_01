@@ -1,7 +1,7 @@
 package banco;
 
 /**
- * Classe qe configura o banco de dados
+ * Classe que configura o banco de dados
  */
 public abstract class  CriaBancoDeDados {
 
@@ -106,6 +106,35 @@ public abstract class  CriaBancoDeDados {
                 "PRIMARY KEY (id_funcao)"+
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
+
+    private static String criarTabelaFuncionario (){
+
+        return  "CREATE TABLE funcionario ("+
+                "id_funcionario int UNSIGNED not null auto_increment primary key,"+
+                "nome varchar(30) not null,"+
+                "id_funcao int UNSIGNED,"+
+                "constraint fk_id_funcao foreign key (id_funcao)"+
+                "references suporte_funcao(id_funcao)"+
+                "ON DELETE CASCADE"+
+                "ON UPDATE CASCADE"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
+
+    /**
+     * Método cria a tabela de método de Estacao
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de Estacao
+     */
+    private static String criarTabelaEstacao (){
+
+        return  "CREATE TABLE estacao ("+
+                "cod_est int UNSIGNED not null auto_increment primary key,"+
+                "endereco text not null,"+
+                "nome varchar(30)"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
+
 
 
     /**
