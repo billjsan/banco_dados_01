@@ -195,7 +195,6 @@ public abstract class  CriaBancoDeDados {
      * @return retorna o comando SQL parar criar a tabela
      * de suporteq
      */
-
     private static String criarTabelaSuporte(){
 
         return "CREATE TABLE suporte ("+
