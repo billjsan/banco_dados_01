@@ -136,6 +136,43 @@ public abstract class  CriaBancoDeDados {
                 ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
     }
 
+    /**
+     * Método cria a tabela de Tipo de Modal
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de Tipo de Modal
+     */
+    private static String criarTabelaTipoModal (){
+
+        return  "CREATE TABLE tipo_modal ("+
+                "tipo_modal int UNSIGNED not null auto_increment primary key,"+
+                "nome_modal varchar(30) not null,"+
+                "valor_hora double"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }
+
+    /**
+     * Método cria a tabela de Modal
+     *
+     * @return retorna o comando SQL parar criar a tabela
+     * de Modal
+     */
+    private static String criarTabelaModal (){
+
+        return  "CREATE TABLE modal ("+
+               "id_modal int UNSIGNED not null auto_increment primary key,"+
+                "tipo_modal int UNSIGNED,"+
+                "modelo VARCHAR(30) not null,"+
+                "marca varchar(20) not null,"+
+                "constraint fk_tipo_modal foreign key (tipo_modal)"+
+                 "references tipo_modal(tipo_modal)"+
+                "ON DELETE CASCADE"+
+                "ON UPDATE CASCADE"+
+                ") ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;";
+    }q
+
+
+
 
 
     /**
