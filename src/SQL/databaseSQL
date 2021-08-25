@@ -6,6 +6,7 @@ USE banco_principal;
 -- ----------------------- COMANDOS DE APOIO -------------------------
 
 SHOW DATABASES;
+Drop database banco_principal;
 
 DROP DATABASE banco_principal;
 SHOW TABLES;
@@ -25,6 +26,9 @@ SELECT * FROM estacao;
 SELECT * FROM tipo_modal;
 SELECT * FROM modal;
 SELECT * FROM suporte;
+SELECT * FROM funcionarios_suporte;
+
+delete from cliente where id_cliente=1;
 
 -- ----------------------- CRIAÇÃO DE TABELAS -----------------------
 
@@ -58,7 +62,6 @@ CREATE TABLE dados_contato (
   REFERENCES cliente(id_cliente)
   ON DELETE CASCADE
   ON UPDATE CASCADE
-
 ) DEFAULT CHARSET = utf8, ENGINE = InnoDB;
 
 CREATE TABLE suporte_funcao (
@@ -113,16 +116,78 @@ CREATE TABLE suporte (
   data_fechamento date,
   hora_fechamento time,
   constraint  foreign key (id_cliente_suporte)
-  references cliente(id_cliente),
+  references cliente(id_cliente)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
   constraint  foreign key (id_modal)
-  references modal(id_modal),
+  references modal(id_modal)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
   constraint  foreign key (cod_est)
   references estacao(cod_est)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE funcionarios_suporte (
+  os int UNSIGNED,
+  id_funcionario int UNSIGNED,
+  constraint fk_os foreign key (os)
+  references suporte(os)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  constraint fk_id_func foreign key (id_funcionario)
+  references funcionario(id_funcionario)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE corrida (
+  cod_corrida int UNSIGNED not null auto_increment primary key,
+  valor double,
+  dataT date,
+  h_retirada time,
+  h_devolucao time,
+  cod_est_ret int UNSIGNED,
+  cod_est_dev int UNSIGNED,
+  id_modal_corrida int UNSIGNED,
+  constraint fk_id_modal_corrida foreign key (id_modal_corrida)
+  references modal(id_modal)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  constraint fk_cod_est_ret foreign key (cod_est_ret)
+  references estacao(cod_est)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  constraint fk_cod_est_dev foreign key (cod_est_dev)
+  references estacao(cod_est)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
+) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
+
+CREATE TABLE faturamento (
+  id_cartao int UNSIGNED,
+  id_cliente_faturamento int UNSIGNED,
+  cod_corrida int UNSIGNED,
+  dataT date,
+  status_os int UNSIGNED,
+  constraint fk_id_cartao foreign key (id_cartao)
+  references metodo_pagamento(id_cartao)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  constraint fk_id_cliente_faturamento foreign key (id_cliente_faturamento)
+  references cliente(id_cliente)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  constraint fk_cod_corrida foreign key (cod_corrida)
+  references corrida(cod_corrida)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE
 ) ENGINE = InnoDB, DEFAULT CHARSET = utf8, AUTO_INCREMENT = 0;
 
 
 -- ----------------------- INSERCAO DE DADOS  -----------------------
--- OS COMANDOS ABAIXO DEVEM SER
+
 -- DADOS DO CLIENTE
 insert into cliente(nome, cpf, e_mail, senha, nascimento)
 values
@@ -140,7 +205,6 @@ values
 (2, "1234567891234567", "pedro", "02154215487", "21-12", "021"),
 (3, "1234567891234567", "carlos", "02154215487", "21-12", "021");
 
-
 -- DADOS DE CONTATO
 INSERT INTO dados_contato (id_cliente_dados, telefone)
 values
@@ -148,7 +212,6 @@ values
 (1, "887751245"),
 (1, "652100325"),
 (2,"665522222");
-
 
 -- DADOS DE ESTACAO
 INSERT INTO estacao (endereco, nome)
@@ -172,6 +235,9 @@ values
 (2,"Bicicleta Elétrica", "caloi EL 01"),
 (3,"Patinete Elétrico", "pat 01");
 
+-- suporte_funcao
+insert INTO suporte_funcao(DESCRICAO, SALARIO) VALUES ("Atende o telefone", 1000.00),("Conserta bicicleta", 2000.00) ;
+
 -- DADOS DE SUPORTE
 INSERT INTO suporte
 (id_cliente_suporte, id_modal, cod_est, descicao_suporte, status_os, data_abertura,
@@ -183,4 +249,16 @@ values
 ( 1, 3, 2, 'Modal não carrega na estação', '111', '2021-09-21', '09:19:56', '2021-08-21', '09:21:32');
 
 
--- ----------------------------------------------------------------------
+-- DADOS DE funcionarios
+insert into funcionario(nome, id_funcao) values ("pedrinho", 1),("pedrinho2", 2);
+
+-- DADOS DE funcionarios_suporte
+INSERT INTO funcionarios_suporte (OS, ID_FUNCIONARIO) VALUES(1, 2 ), (1, 1 );
+
+-- DADOS DE corrida
+insert into corrida(valor, dataT, h_retirada, h_devolucao, cod_est_dev, id_modal_corrida) values (10.40, "2021-02-25", "02:20", "03:20", 1, 1 ), (20.40, "2021-02-28", "02:20", "03:20", 2, 2 );
+
+-- dados de faturamento
+insert into faturamento( id_cartao, id_cliente_faturamento, cod_corrida, dataT, status_os) values (1,1, 1, "2012-05-25",111);
+
+-- ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
