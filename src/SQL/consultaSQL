@@ -1,0 +1,11 @@
+- CONSULTA DADOS DO CLIENTE
+
+-desc>> cria uma tabela com nome, cpf, e-mail, nascimento e n dos cartoes para
+- o cliente selecionado por cpf ou id cliente. 
+
+SELECT cliente.nome, cliente.cpf, cliente.e_mail, cliente.nascimento,
+metodo_pagamento.n_cartao
+FROM (cliente inner join metodo_pagamento on cliente.id_cliente = metodo_pagamento.id_cliente)
+where cliente.id_cliente = 1 OR cliente.cpf = 0
+order by cliente.nome;
+
