@@ -1,7 +1,7 @@
-- CONSULTA DADOS DO CLIENTE
+-- CONSULTA DADOS DO CLIENTE
 
--desc>> cria uma tabela com nome, cpf, e-mail, nascimento e n dos cartoes para
-- o cliente selecionado por cpf ou id cliente. 
+--desc>> cria uma tabela com nome, cpf, e-mail, nascimento e n dos cartoes para
+-- o cliente selecionado por cpf ou id cliente. 
 
 SELECT cliente.nome, cliente.cpf, cliente.e_mail, cliente.nascimento,
 metodo_pagamento.n_cartao
